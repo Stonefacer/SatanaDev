@@ -47,7 +47,6 @@ function GetPHPSESID($login, $password){
     $result = mysql_query($query, $cn);
     if($result === false)
         return false;
-    mysql_free_result($result);
     return $phpsesid;
 }
 
@@ -135,5 +134,15 @@ function AddFriend($UID, $STID, $name){
     return true;
 }
 
+function DelFriend($UID, $name){
+    if(!is_numeric($UID))
+        return false;
+    $cn = Instance();
+    $query = sprintf("delete from friends where uid=%d and name=\"%s\"", $UID, mysql_real_escape_string($name));
+    $result = mysql_query($query, $cn);
+    if($result === false)
+        return false;
+    return true;
+}
 
 ?>

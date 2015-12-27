@@ -77,6 +77,19 @@ require "libs/DBCommon.php";
             SendDataAndDie(666, "db");
         SendDataAndDie(200, "");
     }
+    else if($cmd == "deletefriend"){
+        if(!isset($req->data))
+            SendDataAndDie(4, "");
+        if(!isset($req->phpsesid))
+            SendDataAndDie(301, "");
+        $res = GetUID($req->phpsesid);
+        if($res === false)
+            SendDataAndDie(666, "user id");
+        $res = DelFriend($res, $req->data);
+        if($res === false)
+            SendDataAndDie(666, "db");
+        SendDataAndDie(200, "");
+    }
     else{
         SendDataAndDie(100, "");
     }
