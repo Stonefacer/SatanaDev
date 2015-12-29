@@ -90,6 +90,17 @@ require "libs/DBCommon.php";
             SendDataAndDie(666, "db");
         SendDataAndDie(200, "");
     }
+    else if($cmd == "info"){
+        if(!isset($req->phpsesid))
+            SendDataAndDie(301, "");
+        $res = GetUID($req->phpsesid);
+        if($res === false)
+            SendDataAndDie(666, "user id");
+        $res = GetInfo($res);
+        if($res === false)
+            SendDataAndDie(666, "db");
+        SendDataAndDie(200, $res);
+    }
     else{
         SendDataAndDie(100, "");
     }

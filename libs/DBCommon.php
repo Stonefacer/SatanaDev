@@ -147,4 +147,17 @@ function DelFriend($UID, $name){
     return true;
 }
 
+function GetInfo($UID){
+    if(!is_numeric($UID))
+        return false;
+    $cn = Instance();
+    $query = "SELECT u.login as login, s.name as soctype FROM users as u inner join soctype as s on u.stid = s.stid WHERE u.UID =".$UID;
+    $result = mysql_query($query, $cn);
+    if($result === false)
+        return false;
+    $req = mysql_fetch_assoc($result);
+    mysql_free_result($result);
+    return $req;
+}
+
 ?>

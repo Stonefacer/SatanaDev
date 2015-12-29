@@ -213,6 +213,19 @@
                 <h4>Ответ</h4>
                 data: ""<br/>
                 Об успехе выполнения команды можно судить по коду ("code").<br/>
+				<h3>Info</h3>
+                <div class="alert alert-warning" role="alert">
+                    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                    <span class="sr-only">Warning:</span>
+                    Нужен phpsesid.
+                </div>
+                <h4>Запрос</h4>
+                data: ""<br/>
+				phpsesid: "0123456789abcdef0123456789abcdef"<br/>
+                <h4>Ответ</h4>
+                data: {"login":"Stoneface","soctype":"Дюма"}<br/>
+                <br/>
+				<br/>
                 <a href="https://github.com/Stonefacer/SatanaDev.git">Исходный код</a>
             </div>
             <div class="input-group">
@@ -226,7 +239,7 @@
             </div>
             <br/>
 			<div class="input-group">
-                <span class="input-group-addon" id="basic-addon2">Data</span>
+                <span class="input-group-addon" id="basic-addon2">PHPSESID</span>
                 <input id="phpsesid" type="text" class="form-control" placeholder="PHPSESID" aria-describedby="basic-addon1" value=''>
             </div>
             <br/>
