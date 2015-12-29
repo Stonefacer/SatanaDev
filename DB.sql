@@ -380,18 +380,4 @@ INSERT INTO relation_common(STID_0, STID_1, RID) VALUES
 
 CREATE INDEX OPT_RCS ON relation_common (STID_0, STID_1);
  
- DELIMITER $$
-
-DROP PROCEDURE IF EXISTS UpdateUserHistory$$
-
-CREATE PROCEDURE `UpdateUserHistory`(IN uid INT UNSIGNED, IN sesid char(32))
-BEGIN
-	SET @hid = (SELECT HID FROM history WHERE UID = uid);
-	IF isnull(@hid) THEN INSERT INTO history(UID, tm, PHPSESID) VALUES(uid, NOW(), sesid);
-	ELSE UPDATE history SET tm = NOW(), PHPSESID = sesid WHERE UID = uid;
-	END IF;
-END$$
-
-DELIMITER ;
- 
  

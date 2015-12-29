@@ -41,9 +41,11 @@ function GetPHPSESID($login, $password){
     mysql_free_result($result);
     if($row === false)
         return false;
+    $query = "DELETE FROM history WHERE UID=".$row[0];
+    $result = mysql_query($query, $cn);
     $salt = "Swordfish";
     $phpsesid = md5($salt.$login.time());
-    $query = sprintf("CALL UpdateUserHistory(%d, '%s')", $row[0], $phpsesid);
+    $query = sprintf("INSERT INTO history(UID, tm, PHPSESID) VALUES(%d, NOW(), '%s');", $row[0], $phpsesid);
     $result = mysql_query($query, $cn);
     if($result === false)
         return false;

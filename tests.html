@@ -14,11 +14,11 @@
             
             //var g_TargetURL = "http://grue.esy.es/pingpong.php";
             var g_TargetURL = "pingpong.php";
-            var PHPSESID = undefined;
             
             function SendRequest(Command, Data, Callback) {
                 src = "";
-                if (PHPSESID == undefined)
+				PHPSESID = $("#phpsesid").val();
+                if (PHPSESID == '')
                     src = JSON.stringify({command: Command, data: Data});
                 else
                     src = JSON.stringify({command: Command, phpsesid: PHPSESID, data: Data});
@@ -36,10 +36,25 @@
             
             function SendCustomRequest() {
                 s = $("#data").val();
-                SendRequest($("#cmd").val(), JSON.parse(s), function(data){
-                    obj = JSON.parse(data);
-                    $("#res").val("Code: " + obj.code + "\r\nMessage: " + obj.msg + "\r\n\r\n--------------All Data----------------\r\n" + data);
-                });
+				s = JSON.parse(s);
+				cmd = $("#cmd").val();
+				PHPSESID = $("#phpsesid").val();
+				if (cmd == "LogIn") {
+					SendRequest(cmd, s, function(data){
+						obj = JSON.parse(data);
+						$("#res").val("Code: " + obj.code + "\r\nMessage: " + obj.msg + "\r\n\r\n--------------All Data----------------\r\n" + data);
+						if (obj.code == 200) {
+							PHPSESID = obj.data;
+							$("#phpsesid").val(obj.data);
+						}
+					});					
+				}
+				else{
+					SendRequest($("#cmd").val(), s, function(data){
+						obj = JSON.parse(data);
+						$("#res").val("Code: " + obj.code + "\r\nMessage: " + obj.msg + "\r\n\r\n--------------All Data----------------\r\n" + data);
+					});
+				}
             }
             
             function LogIn() {
@@ -48,7 +63,7 @@
                     obj = JSON.parse(data);
                     $("#res").val("Code: " + obj.code + "\r\nMessage: " + obj.msg + "\r\nPHPSESID: " + obj.data);
                     if (obj.code==200)
-                        PHPSESID = obj.data;
+                        $("#phpsesid").val(obj.data);
                 });
             }
             
@@ -83,7 +98,7 @@
                     //$("#res").val(data);
                     obj = JSON.parse(data);
                     $("#res").val("Code: " + obj.code + "\r\nMessage: " + obj.msg);
-                    PHPSESID = undefined;
+                    $("#phpsesid").val();
                 });
             }
             
@@ -208,6 +223,11 @@
             <div class="input-group">
                 <span class="input-group-addon" id="basic-addon2">Data</span>
                 <input id="data" type="text" class="form-control" placeholder="Data" aria-describedby="basic-addon1" value='{"login": "Stoneface", "password": "Stoneface"}'>
+            </div>
+            <br/>
+			<div class="input-group">
+                <span class="input-group-addon" id="basic-addon2">Data</span>
+                <input id="phpsesid" type="text" class="form-control" placeholder="PHPSESID" aria-describedby="basic-addon1" value=''>
             </div>
             <br/>
             <button type="button" class="btn btn-default" onclick="SendCustomRequest()">Send request</button>

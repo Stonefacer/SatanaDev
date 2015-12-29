@@ -8,4 +8,11 @@ Header set Access-Control-Allow-Headers "origin, x-requested-with, content-type"
 Header set Access-Control-Allow-Methods "GET, POST"
 Header set Access-Control-Allow-Credentials "true"
 
+<Directory "/app/">
+		Options +Indexes FollowSymLinks +ExecCGI
+		AllowOverride AuthConfig FileInfo
+                Order allow,deny
+		Allow from all
+</Directory>
+
 php_flag session.cookie_httponly off
